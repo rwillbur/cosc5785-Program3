@@ -28,4 +28,7 @@ program3.cpp
 --> Main program that calls yyparse/program3.y
 
 Makefile
---> Make and clean functions 
+--> Make and clean functions
+
+grammar.txt
+--> Description of grammar for this iteration 

@@ -1,0 +1,111 @@
+/* vim: ft=lex
+ * A lexcial analyzer for very simple expressions. Designed to work with a 
+ * Bison parser. 
+ *
+ * $Author: kbuckner $
+ * $Date: 2017-10-04 13:20:53-06 $
+ * $Id: simple.lpp,v 1.1 2017-10-04 13:20:53-06 kbuckner Exp kbuckner $
+ * 
+ * $Log: simple.lpp,v $
+ * Revision 1.1  2017-10-04 13:20:53-06  kbuckner
+ * Finally working version
+ * 
+ */
+%{
+
+#include<iostream>
+#include<iomanip>
+#include<string>
+#include"node.hpp"
+#include"simple.tab.h"
+
+using std::string;
+using std::endl;
+using std::cerr;
+using std::cout;
+
+
+/*
+ * trivial yyerror() function. Could  do fancy stuff but for now...
+ */
+void yyerror(const char *string)
+{
+  cerr << string << endl;
+  return;
+}
+%}
+
+%option outfile="simple_lex.cpp"
+%option noyywrap
+%option yylineno
+
+SPACE [ \t]
+
+
+
+
+%%
+	/*
+	* the operators
+	*/
+\(	{ 
+        //yycolumn+=yyleng;
+	//cout << "LPAREN" << endl;
+	return LPAREN;
+	}
+\^	{
+	return EXP;
+	}
+\)	{ 
+        //yycolumn+=yyleng;
+	//cout << "RPAREN" << endl;
+	return RPAREN;
+	}
+\+	{ 
+        //yycolumn+=yyleng;
+	return PLUS;
+	}
+-	{ 
+        //yycolumn+=yyleng;
+	return MINUS;
+	}
+\*	{ 
+        //yycolumn+=yyleng;
+	return TIMES;
+	}
+\/	{
+        // yycolumn+=yyleng;
+	return DIV;
+	}
+{SPACE}+ {
+        //yycolumn+=yyleng;
+	}
+	/*
+	 * The reserved words
+	 */
+[0-9]+	{
+          yylval.ttype=new Node;
+          yylval.ttype->setval(atoi(yytext));
+  	  //print("identifier",yytext);
+	  //yycolumn+=yyleng;
+	  return NUM;
+	}
+	/*
+	 * Comments C++ single line
+	 */
+\/\/[^\n]*\n {
+	  //cout << yyline << ": Comment" << endl;
+	  //yyline++;
+	  //yycolumn=1;
+	}
+	/*
+	 * Count yylines
+	 */
+[\n]	{ 
+        //yyline++; yycolumn=1; 
+	}
+.	{
+        // the "did not match" rule.
+        cerr << yytext << endl;
+        }
+%%

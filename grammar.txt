@@ -1,0 +1,58 @@
+UnaryOP : +
+        | -
+        | !
+        ;
+
+RelationOp : ==
+           | !=
+           | <=
+           | >=
+           | <
+           | >
+           ;
+
+SumOp : +
+      | -
+      | || 
+      ;
+
+ProductOp : *
+          | /
+          | %
+          | &&
+          ;
+
+SimpleType : int ;
+
+Type : SimpleType
+     | Type []
+     ;
+
+MultiBrackets : []
+              | MultiBrackets []
+              ;
+
+VarDeclaration : identifier identifier semi
+               | identifier identifier MultiBrackets semi
+               ;
+
+Expression : Name
+           | number
+           | null
+           | Name ()
+           | read ()
+           | NewExpression
+           | UnaryOp Expression
+           | Expression RelationOp Expression
+           | Expression SumOp Expression
+           | Expression ProductOp Expression
+           | (Expression)
+           ;
+
+NewExpression : new identifier ()
+              | new identifier <[Expression]>* <[]>*
+              ;
+
+Element : VarDeclaration 
+        | Expression
+        ;
