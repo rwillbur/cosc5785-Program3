@@ -1,0 +1,284 @@
+==================================================================================
+=====> ASSIGNMENT <===============================================================
+==================================================================================
+Introduction
+ - The bison parser (yyparse) repeatedly calls yylex which passes the token and 
+   then yyparse trues to figure out if that token matches the grammar 
+
+Assignment
+ - Implement a syntatic analyzer for a portion of Decaf
+ - Use associativity rules and operator precedence to tell bison how to resolve
+   ambiguity
+ - Re-write the productions to eliminate the notational conventions such as */+
+ - Recognize syntactic errors (not semantic) using error productions
+     - Must decide the set of non-terminals for which error productions will 
+       be specified
+     - Choose a set that will allow meaningful messages and allow the parser to
+       recover without missing too many other errors
+     - Errors should output with a line number
+ - Lexical errors are printed out by flex with column and line numbers and these
+   error tokens should not be passed to the parser
+ - Need a document explaining exactly what you are doing to handle all errors
+ - Create a data structure that can be used to represent a parse tree 
+
+Output
+ - A set of error messages beginning at the left margin with a line number, the
+   complete contents of the line, and an informative message describing the 
+   nature of the error. 
+ - The parse tree. Each interior node of the parse tree should be printed by 
+   showing the production to which it was expanded. The nodes should be printed
+   in preorder, so the productions that are output will form a left-most deriv.
+   Leafs are not printed.
+ - Nothing should print from lex except for the error message
+
+Turn-In
+ - Source code with comments at the beginning (name, date, course, filename)
+ - Read in and out from standard output
+ - Test his compilation techniques
+ - Files
+     - program3.lpp : the flex input file
+     - program3.y   : the bison input file
+     - program3.odt : error handling documentation
+     - program3.cpp : the main program
+     - *.cpp/*.h    : any other necessary files
+     - no files created by flex or bison 
+     - makefile
+
+Range of Input
+ - Grammar items 4,5,6,15, and 19-23
+ - Start at the bottom and work up
+ - Follow operator precedence/associativity
+
+==================================================================================
+=====> SLIDES <===================================================================
+==================================================================================
+Errors -
+ - Two Strategies for covering errors
+     - Panic Mode - 
+         - When you see an error, start discarding tokens
+         - Pick a synch point to restart parsing
+     - Phrase-Level Recovery
+         - Replace error with something that allows the parsing to continue
+         - Writer has to pick how to make corrections
+  - Error Productions
+     - Required to continue on 
+     - Special TERMINAL error (not defined)
+     - Use as a part of a rule like:
+       fcall : id '(' arglist ')'
+             | id '(' error ')' 
+             ;
+
+Sources of Errors - 
+  - Lexical
+     - Misspelt words/operators
+     - Missing double quotes
+  - Syntactic 
+     - Misplaced semicolon, brace, parens
+     - Invalid construction (like an else w/o an if)
+
+Error Handling - 
+  - Clearly, quickly, and accurately
+  - Keep overhead of parsing low
+  - Quit after x errors are seen
+
+Bison
+  - Report errors using yyerror(char *)
+  - Provide yyerror(char *) in flex input
+  - Output with %error - verbose
+  - Use the macro 'yyerrok' (makes error messages resume immediately)
+    (Otherwise they are suppressed until recovery is complete)
+  - Probably can't disambiguate the grammare, so more likely to choose
+    the ambiguous productions then implement disambiguating rules to 
+    fix the parsing
+  - Eliminate -
+      - Shift-Reduce Errors - 
+      - Reduce-Reduce Errors - 
+      - Use Precedence (make the else have a higher precedence than teh no-else)
+  - Also Eliminate Left-Recursion?
+  - Keep track of current scope
+
+Parse Trees
+ - A graphical Representation of a derivations
+ - Filters out the choice of which non-terminal was replaced
+ - Given a particular derivations, there is one parse tree for it
+ - For every parse tree, there is a unique right-most and a unique left-most
+   derivation (derivations to parse trees is many to one)
+ - If there is more than one parse tree for a string in a grammar, the grammar
+   is ambiguous
+ - We fix this by carefully choosing the ambiguous productions the implement
+   disambiguating rules to fix the parsing
+
+==================================================================================
+=====> MANUALS <==================================================================
+==================================================================================
+
+----------------------------------------------------------------------------------
+Bison Concepts (Chapter 1)
+----------------------------------------------------------------------------------
+Basics 
+ - Bison in machine-readable BNF context free grammars
+ - In the formal grammatical rules for the language, each kind of syntatic unit 
+   or grouping is named by a symbol
+ - Non-terminals are lower-case and terminals/token types should be upper-case
+ - Semantic actions are C-code that runs each time a match is made for a rule
+   expr : expr '+' expr  { $$ = $1 + $3 }
+ - Each token has a semantic value and a location (@$ for the whole group and 
+   @1 and @3 for subexpressions)
+ - The Bison utility is a program whose output is the Bison parser implementation
+   file that becomes a part of your program/overall compiler
+ - When you run Bison, you give it a Bison grammar file as input and it outputs 
+   a C source file that implements a parser for the grammar's language
+
+The Setup
+ - Bison reads in the tokens from lex (in some fashion) and groups tokens 
+ - The Bison parser implementation file is C code which defines a function named
+   yyparse which implements that grammar. 
+ - Ingredients: lexical analyzer, error-reporting function, a complete C program 
+   called main that calls yyparse.
+ - We need to formally specify the grammar in a Bison Grammar, add yyparse to 
+   our C++ file, and write error-reporting routines
+ - To turn all of this into a runnable program, you must
+     - Run Bison on the grammar to produce the parser
+     - Compile the code output by Bison as well as other source files
+     - Link the object files to produce the finished product
+
+The Basic layout
+   %{
+   Prologue -> Defines types and variables used in actions 
+            -> Defines macros "yyerrok"
+            -> Include header files (#include)
+            -> Declare yylex (lexical analyzer) and yyerror
+            -> Define any global identifiers
+   %}
+   
+   Bison Declarations -> Delcares the names of the terminals and nonterminals
+                      -> Describes operator precedence 
+                      -> Describes data types of semantic values of symbols
+  
+   %% 
+   Grammar Rules -> How to construct each nonterminal symbol from its parts
+   %%
+   Epilogue
+ - Comments are /*...*/ or //...\n
+
+----------------------------------------------------------------------------------
+yyerror (Chapter 4.7)
+----------------------------------------------------------------------------------
+ - The Bison parser detects a syntax error whenever it reads a token which it
+   cannot satisfy by any rules
+ - The Bison parser expects to report the error by calling an error reporting
+   function called yyerror, which you must supply. 
+ - In other words, upon a syntax error, yyparse calls yyerror("syntax error")
+ - Bison can also detect memory exhaustion
+ - The following may work:
+   void
+   yyerror (char const *s)
+   {
+      fprintf (stderr, "%s\n", s);
+   }
+ - After yyerror returns to yyparse, yyparse will attempt error recovery
+
+
+----------------------------------------------------------------------------------
+Bison Errors (Chapter 6)
+----------------------------------------------------------------------------------
+The Basics
+ - The "error" token is a special pre-defined token in Bison
+ - Bison generates an "error" token whenever a syntax error happens
+ - If you have provided a rule to recognize this token in the current context, 
+   Bison can continue parsing
+ - In other words, you are defining how to recover from a syntax error
+   stmts : %empty
+         | stmts '\n' 
+         | stmts exp '\n' 
+         | stmts error '\n'
+         ;
+
+Panic Mode 
+ - For example: an error happens in the middle of an exp above
+ - Bison can discard states and objects from the stack (additional tokens and
+   subexpressions left on the stack after the last stmts) until it gets back 
+   to a state where it can match "error" (discarding subexpressions back to 
+   the last stmts).
+ - Then the error token can be "shifted"
+ - If the old look-ahead is not acceptable to be shifted next, the parser reads
+   and discards input until it finds one (like a \n in the example above)
+  - Discarding symbols causes possible memory leaks (need to be reclaimed)
+
+Error Recovery Strategy
+ - Choosing error rules is choosing an error-recover strategy
+ - One Method: Skip until you read a ";" but what if there is a ";" in the 
+   middle of an otherwise valid statement?
+   stmt : error ';' 
+ - Another Strategy: Skip until you see a closing brace 
+   prelim : '(' expr ')'
+          | '(' error ')'
+          ;
+
+yyerrok
+ - Bison only outputs one error message, then it waits fr three consecutive input
+   tokens to be successfully shifted before it resumes printing error messages
+ - Rules accepting an error token may have actions just like any other rules 
+ - You can use this action to call "yyerrok;" to tell Bison not to supress any 
+   error messages
+ - Using yyerrok means the previous lookahead token is reanalyzed immediately 
+   after an error, unless you use "yyclearin;" in the action to clear this token.
+ - "YYRECOVERING ()" yields 1 when the parser is recovering from a syntax error
+   and 0 otherwise. 
+ - Syntax error diagnostics are suppressed while recovering from a syntax error
+
+----------------------------------------------------------------------------------
+Freeing Discarded Symboles (Chapter 3.7.6)
+----------------------------------------------------------------------------------
+Discarding Important Information
+ - During error recovery, symbols on the stack and tokens in the rest of the file
+   are discarded until the compiler can start parsing again. 
+ - Discarded Symbols Include:
+     - Stacked sybols popped during the first phase of error recovery
+     - Incoming terminals during the second phase of error recovery
+     - The current lookahead and the entire stack (except current rhsymbols)
+       when the parser returns immediately 
+     - The current lookahead and the entire stack (including current rhsymbols)
+       when the parser catches an exception in parse
+     - The start symbol when the parser succeeds
+ - The parser can return immediately if
+     - yyabort or yyaccept was called
+     - failed error recovery
+     - memory exhaustion
+ - If the parser runs out of memory or is stopped by a "yyabort" or "yyaccept", 
+   all of the tokens on the stack must be discarded.
+ - Even if the parser succeeds, it must discard the start symbol
+ - Right-hand side symbols of a rule that explicitly triggers a syntax error by
+   yyerror are not discared automatically. %destructors are only invoked when 
+   user actions cannote manage the memory
+
+%destructors
+ - "%destructor {code} symbols" invokes the {code} whenever the parser discards
+   one of the 'symbols'
+ - Symbols come in two flavors:
+     - per-symbol : listed symbols
+     - per-type   : listing a <semantic type tag>
+ - Per-symbol takes precedence over per-type rules ( the parser will invoke the 
+   {code} block in the per-symbol %destructor if the symbol is in a per-symbol
+   %destructor and is the type of a listed type in a per-type %destructor)
+ - $$/$<tag>$ designates the sematic value of the discarded symbol (free($$))
+ - $@ designates the location of the discarded symbol
+ - <*> and <> can be used in exactly one %destructor to invoke the {code} block
+   when the discarded user-defined grammar symbol can't be matched in any other 
+   destructors (you can use each once, need not be in the same destructor). 
+     - <*> is used for a grammar symbol that has a declared type (%type counts 
+       but $<tag>$ does not)
+     - <> is used for a grammar symbol with no declared semantic type tag
+ - Bison does not run %destructors for Bison-defined symbols (like error)
+ - Bison will never invoke a %destructor for an unreferenced mid-rule semantic 
+   value if you do not reference $$ in the mid-rule's action or $rhsymbol in
+   any later action in that rule. However, if you do reference either, it will
+   invoke the <> %destructor whenever it discards a mid-rule symbol 
+
+----------------------------------------------------------------------------------
+Hash Tables (For Symbol Tables)
+----------------------------------------------------------------------------------
+  - Store things based on key-value pair
+  - http://www.cplusplus.com/reference/unordered_map/unordered_map/unordered_map/
+
+
