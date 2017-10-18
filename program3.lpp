@@ -1,14 +1,29 @@
-%{
 /*
-Shaya Wolf
-cosc5785 - Program 3
-program3.lpp
-10/17/2017
+* Shaya Wolf
+* cosc5785 - Program 3
+* program3.lpp
+* 10/17/2017
 */
+%{
+
+#include<string>
+#include<iostream>
+#include<iomanip>
+
 #include"lex.h"
+#include"node.hpp"
+#include"program3.tab.h"
+
 using namespace std;
+
 int coln = 1;
 int errn = 0;
+
+void yyerror(const char * string) {
+  cerr << string << endl;
+  return;
+}
+
 %}
 
 %option outfile="program3_lex.cpp"
@@ -16,13 +31,7 @@ int errn = 0;
 %option yylineno
 
 SLCOMMENT   (\/\/.*[\n])
-KEYWORD     "int"|"void"|"class"|"new"|"print"|"read"|"return"|"while"|"if"|"else"|"this" 
 NUMBER      [0-9]+
-RELOP       "=="|"!="|"<="|">="|">"|"<"
-SUMOP       "+"|"-"|"||"
-PRODOP      "*"|"/"|"%"|"&&"
-UNAOP       "+"|"-"|"!"
-OPRS        [\[\]\{\}\;\,\(\)\=\.]|"//" 
 ERRTERM     [\[\]{}<>!\+\-\*\/%;,()=. \t\n]
 ID          [\_A-Za-z][\_A-Za-z0-9]* 
 NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
@@ -60,40 +69,220 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
   return COMM; 
 }
 
-{KEYWORD} {
+"int" {
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
-  return KEYW; 
+  return INT; 
 }
 
-{RELOP} {
+"void" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return VOID; 
+}
+
+"class" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return CLASS; 
+}
+
+"new" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return NEW; 
+}
+
+"print" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return PRINT; 
+}
+
+"read" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return READ; 
+}
+
+"return" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return RETURN; 
+}
+
+"while" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return WHILE; 
+}
+
+"if" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return IF; 
+}
+
+"else" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return ELSE; 
+}
+
+"this" {
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return THIS; 
+}
+
+"==" {
   updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
-  return ROP; 
+  return DEQ; 
 }
 
-{SUMOP} {
+"!=" {
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  coln += yyleng; 
+  return NEQ; 
+}
+
+"<=" {
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  coln += yyleng; 
+  return LEQ; 
+}
+
+">=" {
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  coln += yyleng; 
+  return GEQ; 
+}
+
+"<" {
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  coln += yyleng; 
+  return LT; 
+}
+
+">" {
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  coln += yyleng; 
+  return GT; 
+}
+
+"+" {
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
-  return SOP; 
+  return PLUS; 
 }
 
-{PRODOP} {
+"-"  {
+  updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
+  coln += yyleng; 
+  return MINUS; 
+}
+
+"||"  {
+  updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
+  coln += yyleng; 
+  return OR; 
+}
+
+"*" {
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
-  return POP; 
+  return MULT; 
 }
 
-{UNAOP} {
+"/" {
+  updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
+  coln += yyleng; 
+  return DIVD; 
+}
+
+"%" {
+  updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
+  coln += yyleng; 
+  return MOD; 
+}
+
+"&&" {
+  updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
+  coln += yyleng; 
+  return AND; 
+}
+
+"!" {
   updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
-  return UOP; 
+  return BANG; 
 } 
 
-{OPRS} { 
+"[" { 
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
-  return OPS; 
+  return LBRACK; 
+}
+
+"]" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return RBRACK; 
+}
+
+"{" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return LBRACE; 
+}
+  
+"}" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return RBRACE; 
+}
+
+";" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return SEMI; 
+}
+
+"," { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return COMMA; 
+}
+
+"(" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return LPAREN; 
+}
+
+")" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return RPAREN; 
+}
+
+"=" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return EQ; 
+}
+
+"." { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return DOT; 
+}
+
+"//" { 
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return DSLASH; 
 }
 
 {ID} {

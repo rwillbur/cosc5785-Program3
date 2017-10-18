@@ -5,20 +5,25 @@
 // 10/20/2017
 
 #include<FlexLexer.h>
+
 #include<stdio.h>
 #include<iostream>
 #include<fstream>
 #include<string.h>
 #include<iomanip>
+
 #include "attributes.h"
+#include "node.hpp"
+#include "program3.tab.h"
 
 using namespace std;
 
 attributes *atts;
+yyFlexLexer myScanner;
+Node * tree;
 
-int main() {
-  yyFlexLexer myScanner; 
-  int rtn=999;
+int main() { 
+/*  int rtn=999;
   
   cout << setw(5) << "Line" 
        << setw(5) << "Coln" 
@@ -42,6 +47,9 @@ int main() {
   }
   
   cout << "\n";
+*/
+  yyparse();
+  cout << "I did something" << endl;
 
   return 0 ;
 }

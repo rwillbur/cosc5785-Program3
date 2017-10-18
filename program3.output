@@ -1,0 +1,100 @@
+Grammar
+
+    0 $accept: relop $end
+
+    1 relop: DEQ
+    2      | NEQ
+    3      | LEQ
+    4      | GEQ
+    5      | GT
+    6      | LT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+DEQ (258) 1
+NEQ (259) 2
+LEQ (260) 3
+GEQ (261) 4
+GT (262) 5
+LT (263) 6
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+relop (10)
+    on left: 1 2 3 4 5 6, on right: 0
+
+
+State 0
+
+    0 $accept: . relop $end
+
+    DEQ  shift, and go to state 1
+    NEQ  shift, and go to state 2
+    LEQ  shift, and go to state 3
+    GEQ  shift, and go to state 4
+    GT   shift, and go to state 5
+    LT   shift, and go to state 6
+
+    relop  go to state 7
+
+
+State 1
+
+    1 relop: DEQ .
+
+    $default  reduce using rule 1 (relop)
+
+
+State 2
+
+    2 relop: NEQ .
+
+    $default  reduce using rule 2 (relop)
+
+
+State 3
+
+    3 relop: LEQ .
+
+    $default  reduce using rule 3 (relop)
+
+
+State 4
+
+    4 relop: GEQ .
+
+    $default  reduce using rule 4 (relop)
+
+
+State 5
+
+    5 relop: GT .
+
+    $default  reduce using rule 5 (relop)
+
+
+State 6
+
+    6 relop: LT .
+
+    $default  reduce using rule 6 (relop)
+
+
+State 7
+
+    0 $accept: relop . $end
+
+    $end  shift, and go to state 8
+
+
+State 8
+
+    0 $accept: relop $end .
+
+    $default  accept
