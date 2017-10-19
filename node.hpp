@@ -276,13 +276,15 @@ class newexpNode : public Node
         cout << "<NewExpression> -> new identifier (" << id << ") ()" << endl;
       } else if (type == "bracks") {
         cout << "<NewExpression> -> new identifier (" << id << ") ";
-        for (unsigned int i = 0; i < children.size(); i++) {
+        /*for (unsigned int i = 0; i < children.size(); i++) {
           cout << "[FIX]";
         }
-        cout << endl;
+        cout << endl;*/
         for (unsigned int i = 0; i < children.size(); i++) {
+        //if(children.size() > 0){
           children[i]->printNode();
         }
+        cout << endl;
       } else {
         cout << "oh my god holy hell what is happening with my liiiiife" << endl;
       }
@@ -301,6 +303,7 @@ class expstarNode : public Node
     } 
 
     virtual void printNode(ostream * out = 0) {
+      cout << "[Expression] ";
       if(children.size() > 0) {
         children[0]->printNode();
       }
@@ -318,6 +321,7 @@ class brackstarNode : public Node
     } 
 
     virtual void printNode(ostream * out = 0) {
+      cout << "[] ";
       if(children.size() > 0) {
         children[0]->printNode();
       }
