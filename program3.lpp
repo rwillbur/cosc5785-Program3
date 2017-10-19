@@ -70,6 +70,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 "int" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
   return INT; 
@@ -88,6 +89,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 "new" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
   return NEW; 
@@ -130,114 +132,126 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 "this" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
   return THIS; 
 }
 
 "==" {
-  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
-  //yylval.ttype = new Node;
-  //yylval.ttype->setVal(atoi(yytext));
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return DEQ; 
 }
 
 "!=" {
-  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
-  //yylval.ttype = new Node;
-  //yylval.ttype->setVal(atoi(yytext));
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return NEQ; 
 }
 
 "<=" {
-  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
-  //yylval.ttype = new Node;
-  //yylval.ttype->setVal(atoi(yytext));
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return LEQ; 
 }
 
 ">=" {
-  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
-  //yylval.ttype = new Node;
-  //yylval.ttype->setVal(atoi(yytext));
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return GEQ; 
 }
 
 "<" {
-  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
-  //yylval.ttype = new Node;
-  //yylval.ttype->setVal(atoi(yytext));
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return LT; 
 }
 
 ">" {
-  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
-  //yylval.ttype = new Node;
-  //yylval.ttype->setVal(atoi(yytext));
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
   coln += yyleng; 
   return GT; 
 }
 
 "+" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
   return PLUS; 
 }
 
 "-"  {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
   return MINUS; 
 }
 
 "||"  {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "S-OP", yytext);
   coln += yyleng; 
   return OR; 
 }
 
 "*" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
   return MULT; 
 }
 
 "/" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
   return DIVD; 
 }
 
 "%" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
   return MOD; 
 }
 
 "&&" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "P-OP", yytext);
   coln += yyleng; 
   return AND; 
 }
 
 "!" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "U-OP", yytext);
   coln += yyleng; 
   return BANG; 
 } 
 
+"[]" {
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln += yyleng;
+  return DOUBBRACK;
+}
+
 "[" { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return LBRACK; 
 }
 
 "]" { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return RBRACK; 
@@ -256,6 +270,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 ";" { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return SEMI; 
@@ -268,24 +283,28 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 "(" { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return LPAREN; 
 }
 
 ")" { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return RPAREN; 
 }
 
 "=" { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return EQ; 
 }
 
 "." { 
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln += yyleng;
   return DOT; 
@@ -293,6 +312,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 
 
 {ID} {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "ID", yytext);
   coln+= yyleng;
   return IDEN; 

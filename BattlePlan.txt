@@ -228,13 +228,13 @@ yyerrok
  - Syntax error diagnostics are suppressed while recovering from a syntax error
 
 ----------------------------------------------------------------------------------
-Freeing Discarded Symboles (Chapter 3.7.6)
+Freeing Discarded Symbols (Chapter 3.7.6)
 ----------------------------------------------------------------------------------
 Discarding Important Information
  - During error recovery, symbols on the stack and tokens in the rest of the file
    are discarded until the compiler can start parsing again. 
  - Discarded Symbols Include:
-     - Stacked sybols popped during the first phase of error recovery
+     - Stacked symbols popped during the first phase of error recovery
      - Incoming terminals during the second phase of error recovery
      - The current lookahead and the entire stack (except current rhsymbols)
        when the parser returns immediately 

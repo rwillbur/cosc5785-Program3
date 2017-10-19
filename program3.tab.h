@@ -45,14 +45,37 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    NUM = 258,
-    DEQ = 259,
-    NEQ = 260,
-    LEQ = 261,
-    GEQ = 262,
-    GT = 263,
-    LT = 264,
-    RE = 265
+    DOT = 258,
+    THIS = 259,
+    LBRACK = 260,
+    RBRACK = 261,
+    DOUBBRACK = 262,
+    NUM = 263,
+    INT = 264,
+    IDEN = 265,
+    NEW = 266,
+    LPAREN = 267,
+    RPAREN = 268,
+    DEQ = 269,
+    NEQ = 270,
+    LEQ = 271,
+    GEQ = 272,
+    GT = 273,
+    LT = 274,
+    PLUS = 275,
+    MINUS = 276,
+    OR = 277,
+    MULT = 278,
+    DIVD = 279,
+    MOD = 280,
+    AND = 281,
+    BANG = 282,
+    SEMI = 283,
+    EQ = 284,
+    RO = 285,
+    SO = 286,
+    PO = 287,
+    UO = 288
   };
 #endif
 
@@ -66,7 +89,7 @@ union YYSTYPE
   Node *ttype;
   struct attributes* atts;
 
-#line 70 "program3.tab.h" /* yacc.c:1909  */
+#line 93 "program3.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

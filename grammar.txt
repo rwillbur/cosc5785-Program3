@@ -22,19 +22,21 @@ ProductOp : *
           | &&
           ;
 
-SimpleType : int ;
+SimpleType : int 
+           | identifier
+           ;
 
 Type : SimpleType
      | Type []
      ;
 
-MultiBrackets : []
-              | MultiBrackets []
-              ;
+VarDeclaration : Type identifier semi ; 
 
-VarDeclaration : identifier identifier semi
-               | identifier identifier MultiBrackets semi
-               ;
+Name : this
+     | identifier
+     | Name . identifier
+     | Name [Expression]
+     ;
 
 Expression : Name
            | number
