@@ -266,46 +266,45 @@ class expNode : public Node
 class newexpNode : public Node 
 {
   public:
-    newexpNode(string t, string i) : Node () {
+    newexpNode(string t) : Node () {
       type = t;
-      id = i;
     } 
 
     virtual void printNode(ostream * out = 0) {
       if(type == "parens") {
-        cout << "<NewExpression> -> new identifier (" << id << ") ()" << endl;
+        cout << "<NewExpression> -> new <SimpleType> ()" << endl;
+        children[0]->printNode();
       } else if (type == "bracks") {
-        cout << "<NewExpression> -> new identifier (" << id << ") ";
-        /*for (unsigned int i = 0; i < children.size(); i++) {
-          cout << "[FIX]";
-        }
-        cout << endl;*/
-        for (unsigned int i = 0; i < children.size(); i++) {
-        //if(children.size() > 0){
-          children[i]->printNode();
-        }
+        cout << "<NewExpression> -> new <SimpleType> <expstar> <brackstar> " << endl;
+        children[0]->printNode();
+        children[1]->printNode();
+        children[2]->printNode();
         cout << endl;
       } else {
-        cout << "oh my god holy hell what is happening with my liiiiife" << endl;
+        cout << "oh my god holy hell what is happening" << endl;
       }
     }
   private:
     string type;
-    string id;
 }; 
 
 // expstar node because fancy feast
 class expstarNode : public Node 
 {
   public:
-    expstarNode() : Node () {
-      type = "";
+    expstarNode(string t) : Node () {
+      type = t;
     } 
 
     virtual void printNode(ostream * out = 0) {
-      cout << "[Expression] ";
-      if(children.size() > 0) {
+      if(type == "empty") {
+        cout << "<expstar> -> epsilon" << endl;
+      } else if (type == "rec") {
+        cout << "<expstar> -> <expstar> [<Expression>]" << endl;
         children[0]->printNode();
+        children[1]->printNode();
+      } else {
+        cout << "panic" << endl;
       }
     }
   private:
@@ -316,14 +315,18 @@ class expstarNode : public Node
 class brackstarNode : public Node 
 {
   public:
-    brackstarNode() : Node () {
-      type = "";
+    brackstarNode(string t) : Node () {
+      type = t;
     } 
 
     virtual void printNode(ostream * out = 0) {
-      cout << "[] ";
-      if(children.size() > 0) {
+      if(type == "empty") {
+        cout << "<brackstar> -> epsilon" << endl;
+      } else if (type == "rec") {
+        cout << "<brackstar> -> <brackstar> []" << endl;
         children[0]->printNode();
+      } else {
+        cout << "los problemos es loco" << endl;
       }
     }
   private:

@@ -129,14 +129,15 @@ exp : name
          $$->addChild($2);}
     ;  
     
-newexp : NEW IDEN LPAREN RPAREN 
-           {$$ = new newexpNode("parens", $2->value);
+newexp : NEW simpleType LPAREN RPAREN 
+           {$$ = new newexpNode("parens");
+            $$->addChild($2);
             delete $1;
-            delete $2;
             delete $3;
             delete $4;}
-       | NEW IDEN expstar brackstar
-           {$$ = new newexpNode("bracks", $2->value);
+       | NEW simpleType expstar brackstar
+           {$$ = new newexpNode("bracks");
+            $$->addChild($2);
             $$->addChild($3);
             $$->addChild($4);
             delete $1;
@@ -144,9 +145,9 @@ newexp : NEW IDEN LPAREN RPAREN
        ;
        
 expstar : %empty
-            {$$ = 0;}
+            {$$ = new expstarNode("empty");}
         | expstar LBRACK exp RBRACK 
-            {$$ = new expstarNode();
+            {$$ = new expstarNode("rec");
              $$->addChild($1);
              $$->addChild($3);
              delete $2;
@@ -154,9 +155,9 @@ expstar : %empty
         ;
     
 brackstar : %empty
-              {$$ = 0;}
+              {$$ = new brackstarNode("empty");}
           | brackstar DOUBBRACK
-              {$$ = new brackstarNode();
+              {$$ = new brackstarNode("rec");
                $$->addChild($1);
                delete $2;}
           ;
