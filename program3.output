@@ -1,100 +1,154 @@
 Grammar
 
-    0 $accept: relop $end
+    0 $accept: elem $end
 
-    1 relop: DEQ
-    2      | NEQ
-    3      | LEQ
-    4      | GEQ
-    5      | GT
-    6      | LT
+    1 elem: %empty
+    2     | elem exp
+
+    3 exp: NUM
+    4    | exp relop exp
+
+    5 relop: DEQ
+    6      | NEQ
+    7      | LEQ
+    8      | GEQ
+    9      | GT
+   10      | LT
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-DEQ (258) 1
-NEQ (259) 2
-LEQ (260) 3
-GEQ (261) 4
-GT (262) 5
-LT (263) 6
+NUM (258) 3
+DEQ (259) 5
+NEQ (260) 6
+LEQ (261) 7
+GEQ (262) 8
+GT (263) 9
+LT (264) 10
+RE (265)
 
 
 Nonterminals, with rules where they appear
 
-$accept (9)
+$accept (11)
     on left: 0
-relop (10)
-    on left: 1 2 3 4 5 6, on right: 0
+elem (12)
+    on left: 1 2, on right: 0 2
+exp (13)
+    on left: 3 4, on right: 2 4
+relop (14)
+    on left: 5 6 7 8 9 10, on right: 4
 
 
 State 0
 
-    0 $accept: . relop $end
+    0 $accept: . elem $end
 
-    DEQ  shift, and go to state 1
-    NEQ  shift, and go to state 2
-    LEQ  shift, and go to state 3
-    GEQ  shift, and go to state 4
-    GT   shift, and go to state 5
-    LT   shift, and go to state 6
+    $default  reduce using rule 1 (elem)
 
-    relop  go to state 7
+    elem  go to state 1
 
 
 State 1
 
-    1 relop: DEQ .
+    0 $accept: elem . $end
+    2 elem: elem . exp
 
-    $default  reduce using rule 1 (relop)
+    $end  shift, and go to state 2
+    NUM   shift, and go to state 3
+
+    exp  go to state 4
 
 
 State 2
 
-    2 relop: NEQ .
+    0 $accept: elem $end .
 
-    $default  reduce using rule 2 (relop)
+    $default  accept
 
 
 State 3
 
-    3 relop: LEQ .
+    3 exp: NUM .
 
-    $default  reduce using rule 3 (relop)
+    $default  reduce using rule 3 (exp)
 
 
 State 4
 
-    4 relop: GEQ .
+    2 elem: elem exp .
+    4 exp: exp . relop exp
 
-    $default  reduce using rule 4 (relop)
+    DEQ  shift, and go to state 5
+    NEQ  shift, and go to state 6
+    LEQ  shift, and go to state 7
+    GEQ  shift, and go to state 8
+    GT   shift, and go to state 9
+    LT   shift, and go to state 10
+
+    $default  reduce using rule 2 (elem)
+
+    relop  go to state 11
 
 
 State 5
 
-    5 relop: GT .
+    5 relop: DEQ .
 
     $default  reduce using rule 5 (relop)
 
 
 State 6
 
-    6 relop: LT .
+    6 relop: NEQ .
 
     $default  reduce using rule 6 (relop)
 
 
 State 7
 
-    0 $accept: relop . $end
+    7 relop: LEQ .
 
-    $end  shift, and go to state 8
+    $default  reduce using rule 7 (relop)
 
 
 State 8
 
-    0 $accept: relop $end .
+    8 relop: GEQ .
 
-    $default  accept
+    $default  reduce using rule 8 (relop)
+
+
+State 9
+
+    9 relop: GT .
+
+    $default  reduce using rule 9 (relop)
+
+
+State 10
+
+   10 relop: LT .
+
+    $default  reduce using rule 10 (relop)
+
+
+State 11
+
+    4 exp: exp relop . exp
+
+    NUM  shift, and go to state 3
+
+    exp  go to state 12
+
+
+State 12
+
+    4 exp: exp . relop exp
+    4    | exp relop exp .
+
+    $default  reduce using rule 4 (exp)
+
+    relop  go to state 11

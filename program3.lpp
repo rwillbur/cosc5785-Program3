@@ -10,7 +10,7 @@
 #include<iostream>
 #include<iomanip>
 
-#include"lex.h"
+#include"attributes.h"
 #include"node.hpp"
 #include"program3.tab.h"
 
@@ -136,37 +136,49 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 "==" {
-  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //yylval.ttype = new Node;
+  //yylval.ttype->setVal(atoi(yytext));
   coln += yyleng; 
   return DEQ; 
 }
 
 "!=" {
-  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //yylval.ttype = new Node;
+  //yylval.ttype->setVal(atoi(yytext));
   coln += yyleng; 
   return NEQ; 
 }
 
 "<=" {
-  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //yylval.ttype = new Node;
+  //yylval.ttype->setVal(atoi(yytext));
   coln += yyleng; 
   return LEQ; 
 }
 
 ">=" {
-  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //yylval.ttype = new Node;
+  //yylval.ttype->setVal(atoi(yytext));
   coln += yyleng; 
   return GEQ; 
 }
 
 "<" {
-  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //yylval.ttype = new Node;
+  //yylval.ttype->setVal(atoi(yytext));
   coln += yyleng; 
   return LT; 
 }
 
 ">" {
-  updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //updateAtts(yylineno, coln, yyleng, "R-OP", yytext);
+  //yylval.ttype = new Node;
+  //yylval.ttype->setVal(atoi(yytext));
   coln += yyleng; 
   return GT; 
 }
@@ -279,11 +291,6 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
   return DOT; 
 }
 
-"//" { 
-  updateAtts(yylineno, coln, yyleng, yytext, "");
-  coln += yyleng;
-  return DSLASH; 
-}
 
 {ID} {
   updateAtts(yylineno, coln, yyleng, "ID", yytext);
@@ -292,27 +299,28 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 {NUMBER} {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, "NUMBER", yytext);
   coln+= yyleng;
   return NUM; 
 }
 
-[ ] {
-  updateAtts(yylineno, coln, yyleng, "SPACE", "");
+[ ]+ {
+  //updateAtts(yylineno, coln, yyleng, "SPACE", "");
   coln+= yyleng;
-  return WSPC; 
+  //return WSPC; 
 }
 
-[\n] {
-  updateAtts(yylineno, coln, yyleng, "NEWLINE", "");
+[\n]+ {
+  //updateAtts(yylineno, coln, yyleng, "NEWLINE", "");
   coln = 1;
-  return WSPC; 
+  //return WSPC; 
 }
 
-[\t] {
-  updateAtts(yylineno, coln, yyleng, "WSPACE", "");
+[\t]+ {
+  //updateAtts(yylineno, coln, yyleng, "WSPACE", "");
   coln+= yyleng;
-  return WSPC; 
+  //return WSPC; 
 }
 
 . {

@@ -45,12 +45,14 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    DEQ = 258,
-    NEQ = 259,
-    LEQ = 260,
-    GEQ = 261,
-    GT = 262,
-    LT = 263
+    NUM = 258,
+    DEQ = 259,
+    NEQ = 260,
+    LEQ = 261,
+    GEQ = 262,
+    GT = 263,
+    LT = 264,
+    RE = 265
   };
 #endif
 
@@ -59,11 +61,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "program3.y" /* yacc.c:1909  */
+#line 34 "program3.y" /* yacc.c:1909  */
 
   Node *ttype;
+  struct attributes* atts;
 
-#line 67 "program3.tab.h" /* yacc.c:1909  */
+#line 70 "program3.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

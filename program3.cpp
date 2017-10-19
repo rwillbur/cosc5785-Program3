@@ -20,7 +20,7 @@ using namespace std;
 
 attributes *atts;
 yyFlexLexer myScanner;
-Node * tree;
+vector<Node*> forest;
 
 int main() { 
 /*  int rtn=999;
@@ -29,9 +29,11 @@ int main() {
        << setw(5) << "Coln" 
        << setw(25) << "Token"
        << setw(25) << "Value\n"; 
+*/
   
   atts = new attributes{0,0,0,""};
     
+/*
   while (((rtn = myScanner.yylex()) != 0)) {
     if(rtn == MAXERR) {
       cout << "\nMAX ERRORS REACHED";
@@ -49,7 +51,11 @@ int main() {
   cout << "\n";
 */
   yyparse();
-  cout << "I did something" << endl;
+  
+  // I'm going to print a stupid tree
+  for(unsigned int i = 0; i < forest.size(); i++) {
+    forest[i]->printNode();
+  }
 
   return 0 ;
 }

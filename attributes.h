@@ -37,7 +37,6 @@
 #define DOT 6
 
 #define IDEN 7
-#define NUM 8
 
 #define IF 9
 #define INT 9

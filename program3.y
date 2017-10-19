@@ -12,6 +12,7 @@
 #include <iostream>
 #include <FlexLexer.h>
 #include "node.hpp"
+#include "attributes.h"
 
 using namespace std;
 //using std::cerr;
@@ -19,7 +20,7 @@ using namespace std;
 //using std::endl;
 
 // externs defined in program3.cpp 
-extern Node *tree;
+extern vector<Node*> forest;
 extern yyFlexLexer myScanner;
 
 // Make C++ scanner play nice with C parser
@@ -32,21 +33,42 @@ void yyerror(const char *);
 
 %union {
   Node *ttype;
+  struct attributes* atts;
 }
 // Bison Declarations
 
-%token DEQ NEQ LEQ GEQ GT LT
-
+%type<ttype> elem 
+%type<ttype> exp
+%type<ttype> relop
+%token<atts> NUM
+%token DEQ NEQ LEQ GEQ GT LT 
+%left DEQ NEQ LEQ GEQ GT LT RE
 
 %% 
 
 // Bison Grammar
-relop : DEQ //{cout << "DEQ" << endl;}
-      | NEQ //{cout << "NEQ" << endl;}
-      | LEQ //{cout << "LEQ" << endl;}
-      | GEQ //{cout << "GEQ" << endl;}
-      | GT  //{cout << "GT" << endl;}
-      | LT  //{cout << "LT" << endl;}
+
+elem : %empty {}
+     | elem exp {forest.push_back($2);}
+     ;
+
+exp : NUM
+        {$$ = new numNode($1->value);
+        delete $1;}
+    | exp relop exp %prec RE 
+        {$$ = new expNode("relop");
+         $$->addChild($1);
+         $$->addChild($2);
+         $$->addChild($3);}
+    ;
+      
+
+relop : DEQ {$$ = new relopNode("==");}
+      | NEQ {$$ = new relopNode("!=");}
+      | LEQ {$$ = new relopNode("<=");}
+      | GEQ {$$ = new relopNode(">=");}
+      | GT  {$$ = new relopNode(">");}
+      | LT  {$$ = new relopNode("<");}
       ;
         
 %%
