@@ -1,0 +1,284 @@
+<VarDeclaration> -> <Type> identifier (something) semi
+<Type> -> <SimpleType>
+<SimpleType> -> int
+
+<VarDeclaration> -> <Type> identifier (somethingelse) semi
+<Type> -> <Type> []
+<Type> -> <SimpleType>
+<SimpleType> -> int
+
+<VarDeclaration> -> <Type> identifier (something) semi
+<Type> -> <SimpleType>
+<SimpleType> -> identifier (type)
+
+<VarDeclaration> -> <Type> identifier (somethingelse) semi
+<Type> -> <Type> []
+<Type> -> <SimpleType>
+<SimpleType> -> identifier (type)
+
+<VarDeclaration> -> <Type> identifier (otherthing) semi
+<Type> -> <Type> []
+<Type> -> <Type> []
+<Type> -> <SimpleType>
+<SimpleType> -> identifier (type)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> this
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (some)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> <Name> . identifier (some)
+<Name> -> this
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> <Name> [ <Expression> ]
+<Name> -> this
+<Expression> -> Number (9)
+<Expression> -> Number (0)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> <Name> [ <Expression> ]
+<Name> -> <Name> . identifier (some)
+<Name> -> this
+<Expression> -> Number (9)
+<Expression> -> Number (0)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Name>
+<Name> -> identifier (some)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> null
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Name> ()
+<Name> -> identifier (other)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> read ()
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Name>
+<Name> -> identifier (some)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> + <Expression>
+<Expression> -> Number (9)
+<Expression> -> Number (4)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> null
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> read ()
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Name> ()
+<Name> -> identifier (other)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> ()
+<SimpleType> -> int
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> ()
+<SimpleType> -> identifier (type)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> <expstar> <brackstar> 
+<SimpleType> -> int
+<expstar> -> <expstar> [<Expression>]
+<expstar> -> epsilon
+<Expression> -> Number (9)
+<brackstar> -> epsilon
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> <expstar> <brackstar> 
+<SimpleType> -> identifier (type)
+<expstar> -> <expstar> [<Expression>]
+<expstar> -> <expstar> [<Expression>]
+<expstar> -> <expstar> [<Expression>]
+<expstar> -> epsilon
+<Expression> -> Number (9)
+<Expression> -> Number (8)
+<Expression> -> Number (7)
+<brackstar> -> epsilon
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> <expstar> <brackstar> 
+<SimpleType> -> identifier (type)
+<expstar> -> epsilon
+<brackstar> -> <brackstar> []
+<brackstar> -> epsilon
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> <expstar> <brackstar> 
+<SimpleType> -> int
+<expstar> -> epsilon
+<brackstar> -> <brackstar> []
+<brackstar> -> <brackstar> []
+<brackstar> -> epsilon
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <NewExpression>
+<NewExpression> -> new <SimpleType> <expstar> <brackstar> 
+<SimpleType> -> int
+<expstar> -> <expstar> [<Expression>]
+<expstar> -> <expstar> [<Expression>]
+<expstar> -> epsilon
+<Expression> -> Number (11)
+<Expression> -> Number (5)
+<brackstar> -> <brackstar> []
+<brackstar> -> <brackstar> []
+<brackstar> -> epsilon
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> + <Expression>
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> - <Expression>
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> ! <Expression>
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> == <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> != <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> <= <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> >= <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> < <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression) -> ( <Expression> )
+<Expression> -> <Expression> > <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> + <Expression>
+<Expression> -> Number (9)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> - <Expression>
+<Expression> -> Number (9)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> || <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (thing)
+<Expression> -> <Name>
+<Name> -> identifier (some)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> * <Expression>
+<Expression> -> Number (9)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> / <Expression>
+<Expression> -> Number (9)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> % <Expression>
+<Expression> -> Number (9)
+<Expression> -> Number (9)
+
+<Statement> -> <Name> = <Expression> semi
+<Name> -> identifier (name)
+<Expression> -> <Expression> && <Expression>
+<Expression> -> <Name>
+<Name> -> identifier (some)
+<Expression> -> <Name>
+<Name> -> identifier (thing)

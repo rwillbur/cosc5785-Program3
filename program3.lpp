@@ -41,9 +41,10 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 %%
 
 "/*" {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", "MULTILINE");
+  //yylval.atts = new struct attributes;
+  //updateAtts(yylineno, coln, yyleng, "COMMENT", "MULTILINE");
   BEGIN(COMMENT);
-  return COMM; 
+  //return COMM; 
 }
 
 <COMMENT>[^*\n]* {
@@ -64,9 +65,10 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 {SLCOMMENT} {
-  updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
+  //yylval.atts = new struct attributes;
+  //updateAtts(yylineno, coln, yyleng, "COMMENT", yytext);
   coln = 1; 
-  return COMM; 
+  //return COMM; 
 }
 
 "int" {
@@ -95,6 +97,13 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
   return NEW; 
 }
 
+"null" {
+  yylval.atts = new struct attributes;
+  updateAtts(yylineno, coln, yyleng, yytext, "");
+  coln+= yyleng;
+  return NLL; 
+}
+
 "print" {
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
@@ -102,6 +111,7 @@ NOTERRTERM  [^ \n\t\[\]\{\}!&|=<>\+\-\*\/\%\;\,\(\)]
 }
 
 "read" {
+  yylval.atts = new struct attributes;
   updateAtts(yylineno, coln, yyleng, yytext, "");
   coln+= yyleng;
   return READ; 

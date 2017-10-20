@@ -1,0 +1,75 @@
+//// Var Declarations ////
+// Type identifier semi
+
+// Type -> SimpleType | Type[]
+int something;
+int[] somethingelse;
+
+// SimpleType -> int | identifier
+type something;
+type[] somethingelse;
+type[][] otherthing;
+
+//// Statements ////
+// Name = Expression;
+
+// Name -> this | identifier | Name.identifier | Name [Expression]
+this = 9;
+some = 9;
+this.some = 9;
+this[9] = 0;
+this.some[9] = 0;
+
+/* 
+Expression -> Name | number | null | Name() | read() | (Expression) 
+            | NewExpression | UOP Expression | Expression ROP Expression 
+            | Expression SOP Expression | Expression POP Expression
+*/
+name = some;
+name = 9;
+name = null;
+
+name = other();
+
+name = read();
+name = read(;
+name = read);
+
+name = (some);
+name = (9+4);
+name = (null);
+name = (read());
+name = (other());
+
+// NewExpression -> new SimpleType() | new SimpleType [Expression]* []*
+name = new int();
+name = new type();
+name = new int[9];
+name = new type[9][8][7];
+name = new type[];
+name = new int[][];
+name = new int[11][5][][];
+
+// UOP -> + | - | !
+name = +9;
+name = -9;
+name = !9;
+
+// ROP -> == | != | <= | >= | < | >
+name = (some == thing);
+name = (some != thing);
+name = (some <= thing);
+name = (some >= thing);
+name = (some < thing);
+name = (some > thing);
+
+// SOP -> + | - | ||
+name = 9 + 9;
+name = 9 - 9;
+name = thing || some;
+
+// POP -> * | / | % | &&
+name = 9*9;
+name = 9/9;
+name = 9%9;
+name = some && thing;

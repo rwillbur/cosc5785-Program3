@@ -2,14 +2,14 @@
 =====> ASSIGNMENT <===============================================================
 ==================================================================================
 Introduction
- - The bison parser (yyparse) repeatedly calls yylex which passes the token and 
+ + The bison parser (yyparse) repeatedly calls yylex which passes the token and 
    then yyparse trues to figure out if that token matches the grammar 
 
 Assignment
- - Implement a syntatic analyzer for a portion of Decaf
- - Use associativity rules and operator precedence to tell bison how to resolve
+ + Implement a syntatic analyzer for a portion of Decaf
+ + Use associativity rules and operator precedence to tell bison how to resolve
    ambiguity
- - Re-write the productions to eliminate the notational conventions such as */+
+ + Re-write the productions to eliminate the notational conventions such as */+
  - Recognize syntactic errors (not semantic) using error productions
      - Must decide the set of non-terminals for which error productions will 
        be specified
@@ -19,16 +19,16 @@ Assignment
  - Lexical errors are printed out by flex with column and line numbers and these
    error tokens should not be passed to the parser
  - Need a document explaining exactly what you are doing to handle all errors
- - Create a data structure that can be used to represent a parse tree 
+ + Create a data structure that can be used to represent a parse tree 
 
 Output
  - A set of error messages beginning at the left margin with a line number, the
    complete contents of the line, and an informative message describing the 
    nature of the error. 
- - The parse tree. Each interior node of the parse tree should be printed by 
+ + The parse tree. Each interior node of the parse tree should be printed by 
    showing the production to which it was expanded. The nodes should be printed
    in preorder, so the productions that are output will form a left-most deriv.
-   Leafs are not printed.
+ - Leafs are not printed.
  - Nothing should print from lex except for the error message
 
 Turn-In
@@ -45,9 +45,9 @@ Turn-In
      - makefile
 
 Range of Input
- - Grammar items 4,5,6,15, and 19-23
- - Start at the bottom and work up
- - Follow operator precedence/associativity
+ + Grammar items 4,5,6,15, and 19-23
+ + Start at the bottom and work up
+ + Follow operator precedence/associativity
 
 ==================================================================================
 =====> SLIDES <===================================================================
@@ -87,7 +87,7 @@ Bison
   - Output with %error - verbose
   - Use the macro 'yyerrok' (makes error messages resume immediately)
     (Otherwise they are suppressed until recovery is complete)
-  - Probably can't disambiguate the grammare, so more likely to choose
+  - Probably can't disambiguate the grammar, so more likely to choose
     the ambiguous productions then implement disambiguating rules to 
     fix the parsing
   - Eliminate -
@@ -216,7 +216,7 @@ Error Recovery Strategy
           ;
 
 yyerrok
- - Bison only outputs one error message, then it waits fr three consecutive input
+ - Bison only outputs one error message, then it waits for three consecutive input
    tokens to be successfully shifted before it resumes printing error messages
  - Rules accepting an error token may have actions just like any other rules 
  - You can use this action to call "yyerrok;" to tell Bison not to supress any 

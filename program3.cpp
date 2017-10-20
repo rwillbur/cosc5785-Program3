@@ -23,39 +23,18 @@ yyFlexLexer myScanner;
 vector<Node*> forest;
 
 int main() { 
-/*  int rtn=999;
-  
-  cout << setw(5) << "Line" 
-       << setw(5) << "Coln" 
-       << setw(25) << "Token"
-       << setw(25) << "Value\n"; 
-*/
-  
+  // Initialize Attributes Struct
   atts = new attributes{0,0,0,""};
     
-/*
-  while (((rtn = myScanner.yylex()) != 0)) {
-    if(rtn == MAXERR) {
-      cout << "\nMAX ERRORS REACHED";
-      break; 
-    } 
-    if(rtn != WSPC && rtn != COMM) {
-      cout << setw(5) << atts->lNum 
-           << setw(5) << atts->cNum
-           << setw(25) << atts->token
-           << setw(25) << atts->value 
-           << "\n";
-    } 
-  }
-  
-  cout << "\n";
-*/
+  // Make call for Bison
   yyparse();
   
-  // I'm going to print a stupid tree
+  // Print the Parse Tree
   for(unsigned int i = 0; i < forest.size(); i++) {
     forest[i]->printNode();
+    delete forest[i];
   }
 
+  delete atts;
   return 0 ;
 }

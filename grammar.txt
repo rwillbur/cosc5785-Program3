@@ -37,7 +37,19 @@ Name : this
      | Name . identifier
      | Name [Expression]
      ;
+     
+expstar : empty
+        | expstar Expression
+        ;
 
+brackstar : empty
+          | brackstar []
+          ;
+
+NewExpression : new SimpleType ()
+              | new SimpleType <expstar> <brackstar>
+              ;
+              
 Expression : Name
            | number
            | null
@@ -50,11 +62,9 @@ Expression : Name
            | Expression ProductOp Expression
            | (Expression)
            ;
-
-NewExpression : new identifier ()
-              | new identifier <[Expression]>* <[]>*
-              ;
+              
+Statement : Name = Expression ;
 
 Element : VarDeclaration 
-        | Expression
+        | Statement
         ;

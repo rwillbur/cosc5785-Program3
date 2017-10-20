@@ -50,32 +50,34 @@ extern int yydebug;
     LBRACK = 260,
     RBRACK = 261,
     DOUBBRACK = 262,
-    NUM = 263,
-    INT = 264,
-    IDEN = 265,
-    NEW = 266,
-    LPAREN = 267,
-    RPAREN = 268,
-    DEQ = 269,
-    NEQ = 270,
-    LEQ = 271,
-    GEQ = 272,
-    GT = 273,
-    LT = 274,
-    PLUS = 275,
-    MINUS = 276,
-    OR = 277,
-    MULT = 278,
-    DIVD = 279,
-    MOD = 280,
-    AND = 281,
-    BANG = 282,
-    SEMI = 283,
-    EQ = 284,
-    RO = 285,
-    SO = 286,
-    PO = 287,
-    UO = 288
+    INT = 263,
+    IDEN = 264,
+    NUM = 265,
+    NLL = 266,
+    READ = 267,
+    NEW = 268,
+    LPAREN = 269,
+    RPAREN = 270,
+    DEQ = 271,
+    NEQ = 272,
+    LEQ = 273,
+    GEQ = 274,
+    GT = 275,
+    LT = 276,
+    PLUS = 277,
+    MINUS = 278,
+    OR = 279,
+    MULT = 280,
+    DIVD = 281,
+    MOD = 282,
+    AND = 283,
+    BANG = 284,
+    SEMI = 285,
+    EQ = 286,
+    RO = 287,
+    SO = 288,
+    PO = 289,
+    UO = 290
   };
 #endif
 
@@ -89,7 +91,7 @@ union YYSTYPE
   Node *ttype;
   struct attributes* atts;
 
-#line 93 "program3.tab.h" /* yacc.c:1909  */
+#line 95 "program3.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

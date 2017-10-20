@@ -31,8 +31,11 @@ class Node
 
   // Destructor
   virtual ~Node() {
-    while(!children.empty()) {
-      children.pop_back();
+    //while(!children.empty()) {
+      //children.pop_back();
+    //}
+    for(unsigned int i = 0; i < children.size(); i++) {
+      delete children[i]; 
     }
   }
 
@@ -111,7 +114,21 @@ class nodeClass : public Node
   private:
     string type;
 }; 
-/////////// inheritence template //////////////////////////////////
+/////////// inheritence template //////////////////////////
+
+class errorNode : public Node 
+{
+  public:
+    errorNode(string er) : Node () {
+      errorRed = er;
+    } 
+
+    virtual void printNode(ostream * out = 0) {
+      cout << errorRed << " -> *** Error Node ***" << endl;
+    }
+  private:
+    string errorRed;
+}; 
 
 // Statement Node ... for now just a simple statement
 class statementNode : public Node 
@@ -122,7 +139,7 @@ class statementNode : public Node
     } 
 
     virtual void printNode(ostream * out = 0) {
-      cout << "<Statement> -> <Name> = <Expression> semi" << endl;
+      cout << endl << "<Statement> -> <Name> = <Expression> semi" << endl;
       children[0]->printNode();
       children[1]->printNode();
     }
@@ -164,7 +181,7 @@ class varDecNode : public Node
     } 
 
     virtual void printNode(ostream * out = 0) {
-      cout << "<VarDeclaration> -> <Type> identifier (" << identifier << ") semi" << endl;
+      cout << endl << "<VarDeclaration> -> <Type> identifier (" << identifier << ") semi" << endl;
       children[0]->printNode();
     }
   private:
@@ -249,10 +266,18 @@ class expNode : public Node
         cout << endl;
         children[1]->printNode();
       } else if (expType == "name") {
-        cout << "<Exression> -> <Name>" << endl;
+        cout << "<Expression> -> <Name>" << endl;
         children[0]->printNode();
+      } else if (expType == "name paren") {
+        cout << "<Expression> -> <Name> ()" << endl;
+        children[0]->printNode();
+      } else if (expType == "read") {
+        cout << "<Expression> -> read ()" << endl;;
       } else if (expType == "newexp") {
         cout << "<Expression> -> <NewExpression>" << endl;
+        children[0]->printNode();
+      } else if (expType == "paren") {
+        cout << "<Expression) -> ( <Expression> )" << endl;
         children[0]->printNode();
       } else {
         cout << "Something really bad happened :'(" << endl;
@@ -260,6 +285,20 @@ class expNode : public Node
     }
   private:
     string expType;
+}; 
+
+class nullNode : public Node 
+{
+  public:
+    nullNode() : Node () {
+      type = "";
+    } 
+
+    virtual void printNode(ostream * out = 0) {
+      cout << "<Expression> -> null" << endl;
+    }
+  private:
+    string type;
 }; 
 
 // NewExpression node 
@@ -279,7 +318,6 @@ class newexpNode : public Node
         children[0]->printNode();
         children[1]->printNode();
         children[2]->printNode();
-        cout << endl;
       } else {
         cout << "oh my god holy hell what is happening" << endl;
       }

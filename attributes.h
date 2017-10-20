@@ -19,7 +19,6 @@
 
 #define IF 9
 #define VOID 9
-#define READ 9
 #define ELSE 9
 #define CLASS 9
 #define PRINT 9

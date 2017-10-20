@@ -45,7 +45,8 @@ void yyerror(const char *);
 
 %token<atts> DOT THIS
 %token<atts> LBRACK RBRACK DOUBBRACK
-%token<atts> NUM INT IDEN NEW LPAREN RPAREN
+%token<atts> INT IDEN 
+%token<atts> NUM NLL READ NEW LPAREN RPAREN
 
 %token<atts> DEQ NEQ LEQ GEQ GT LT 
 %token<atts> PLUS MINUS OR
@@ -105,6 +106,39 @@ exp : name
     | NUM
         {$$ = new numNode($1->value);
          delete $1;}
+    | NLL
+        {$$ = new nullNode();
+         delete $1;}
+    | name LPAREN RPAREN
+        {$$ = new expNode("name paren");
+         $$->addChild($1);
+         delete $2;
+         delete $3;}
+    /*| name LPAREN error
+        {$$ = new errorNode("Missing ')' after name declaration", $2->lNum);
+         delete $2;
+         yyerrok;}
+    /*| name error RPAREN
+        {$$ = new errorNode("Missing '(' after name declaration", $3->lNum);
+         delete $3;
+         yyerrok;}*/
+    | READ LPAREN RPAREN
+        {$$ = new expNode("read");
+         delete $1;
+         delete $2;
+         delete $3;}
+    | READ LPAREN error
+        {cerr << "Missing ')' after read: line " << $1->lNum << endl;
+         $$ = new errorNode("<Expression>");
+         delete $1;
+         delete $2;
+         yyerrok;}
+    | READ error RPAREN
+        {cerr << "Missing '(' after read: line " << $1->lNum << endl;
+         $$ = new errorNode("<Expression>");
+         delete $1;
+         delete $3;
+         yyerrok;}
     | newexp
         {$$ = new expNode("newexp");
          $$->addChild($1);}
@@ -127,6 +161,11 @@ exp : name
         {$$ = new expNode("unyop");
          $$->addChild($1);
          $$->addChild($2);}
+    | LPAREN exp RPAREN 
+        {$$ = new expNode("paren");
+         $$->addChild($2);
+         delete $1;
+         delete $3;}
     ;  
     
 newexp : NEW simpleType LPAREN RPAREN 
@@ -140,8 +179,7 @@ newexp : NEW simpleType LPAREN RPAREN
             $$->addChild($2);
             $$->addChild($3);
             $$->addChild($4);
-            delete $1;
-            delete $2;}
+            delete $1;}
        ;
        
 expstar : %empty
