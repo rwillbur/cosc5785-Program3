@@ -25,17 +25,11 @@ attributes.h
 --> Header file for attributes.cpp containing the attributes
     data structure and macros for lex to use
 
-BattlePlan.txt
---> Document Description and notes over material
-
 grammar.txt
 --> Grammar implemented in this iteration 
 
 grammarTest.txt
 --> Test file that *should* completely test the grammar
-
-grammarTestExpected.txt
---> Expected output when grammarTest.txt is run
 
 Makefile
 --> Make and clean functions

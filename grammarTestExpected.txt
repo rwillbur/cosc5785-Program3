@@ -1,3 +1,38 @@
+---syntax error---
+Missing ';' after identifier: line 6
+
+Lex [WORD] Error (Line: 10, Col: 1): #include
+
+---syntax error---
+Missing ';' after statement: line 22
+
+---syntax error---
+Missing ']' after name: line 26
+
+---syntax error---
+Missing ')' after name declaration: line 39
+
+---syntax error---
+Missing ')' after read: line 43
+
+---syntax error---
+Missing '(' after read: line 44
+
+---syntax error---
+Missing ')' after expression: line 47
+
+---syntax error---
+Missing ')' after type: line 55
+
+---syntax error---
+Missing ']' after expression: line 58
+
+---syntax error---
+Missing ';' after statement: line 58
+
+Lex [CHAR] Error (Line: 65, Col: 1): $
+
+
 <VarDeclaration> -> <Type> identifier (something) semi
 <Type> -> <SimpleType>
 <SimpleType> -> int
@@ -282,3 +317,4 @@
 <Name> -> identifier (some)
 <Expression> -> <Name>
 <Name> -> identifier (thing)
+

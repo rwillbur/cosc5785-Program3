@@ -1,0 +1,70 @@
+UnaryOP : +
+        | -
+        | !
+        ;
+
+RelationOp : ==
+           | !=
+           | <=
+           | >=
+           | <
+           | >
+           ;
+
+SumOp : +
+      | -
+      | || 
+      ;
+
+ProductOp : *
+          | /
+          | %
+          | &&
+          ;
+
+SimpleType : int 
+           | identifier
+           ;
+
+Type : SimpleType
+     | Type []
+     ;
+
+VarDeclaration : Type identifier semi ; 
+
+Name : this
+     | identifier
+     | Name . identifier
+     | Name [Expression]
+     ;
+     
+expstar : empty
+        | expstar Expression
+        ;
+
+brackstar : empty
+          | brackstar []
+          ;
+
+NewExpression : new SimpleType ()
+              | new SimpleType <expstar> <brackstar>
+              ;
+              
+Expression : Name
+           | number
+           | null
+           | Name ()
+           | read ()
+           | NewExpression
+           | UnaryOp Expression
+           | Expression RelationOp Expression
+           | Expression SumOp Expression
+           | Expression ProductOp Expression
+           | (Expression)
+           ;
+              
+Statement : Name = Expression ;
+
+Element : VarDeclaration 
+        | Statement
+        ;

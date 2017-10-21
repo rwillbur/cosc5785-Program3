@@ -11,30 +11,29 @@ Assignment
    ambiguity
  + Re-write the productions to eliminate the notational conventions such as */+
  - Recognize syntactic errors (not semantic) using error productions
-     - Must decide the set of non-terminals for which error productions will 
+     + Must decide the set of non-terminals for which error productions will 
        be specified
-     - Choose a set that will allow meaningful messages and allow the parser to
+     + Choose a set that will allow meaningful messages and allow the parser to
        recover without missing too many other errors
-     - Errors should output with a line number
- - Lexical errors are printed out by flex with column and line numbers and these
+     + Errors should output with a line number
+ + Lexical errors are printed out by flex with column and line numbers and these
    error tokens should not be passed to the parser
- - Need a document explaining exactly what you are doing to handle all errors
+ + Need a document explaining exactly what you are doing to handle all errors
  + Create a data structure that can be used to represent a parse tree 
 
 Output
- - A set of error messages beginning at the left margin with a line number, the
-   complete contents of the line, and an informative message describing the 
-   nature of the error. 
+ + A set of error messages beginning at the left margin with a line number, and an 
+   informative message describing the nature of the error. 
  + The parse tree. Each interior node of the parse tree should be printed by 
    showing the production to which it was expanded. The nodes should be printed
    in preorder, so the productions that are output will form a left-most deriv.
- - Leafs are not printed.
- - Nothing should print from lex except for the error message
+ + Leafs are not printed.
+ + Nothing should print from lex except for the error message
 
 Turn-In
- - Source code with comments at the beginning (name, date, course, filename)
- - Read in and out from standard output
- - Test his compilation techniques
+ + Source code with comments at the beginning (name, date, course, filename)
+ + Read in and out from standard output
+ + Test his compilation techniques
  - Files
      - program3.lpp : the flex input file
      - program3.y   : the bison input file
