@@ -1,0 +1,60 @@
+Shaya Wolf
+cosc 5785
+Program 3
+10/20/2017
+
+Error Productions/Explanations
+
+Basic:
+    The main point of the errors right now are to find missing 
+    semi-colons and closing parens/braces. These print an error
+    to the user that there was a syntax error and tells them which
+    of the errors below it was with a line number. The tree that 
+    the error belongs to will not be printed.
+
+Missing ';' after statement
+    This is an error that catches a statement without a semi-colon.
+    Example : name = type
+    Instead of : name = type;
+
+Missing ';' after identifier
+    This is an error that catches a variable declaration that
+    is missing a semi-colon at the end.
+    Example : type id
+    Instead of : type id;
+
+Missing ')' after name declaration 
+    This is an error that catches when a name is declared
+    without a closing paren. 
+    Example : some = thing(;
+    Instead of : some = thing();
+    
+Missing '(' after read
+    This is an error that catches when a read function
+    is called without an opening paren.
+    Example : some = read);
+    Instead of : some = read();
+
+Missing ')' after read
+    This is an error that catches when a read function
+    is called without a closing paren.
+    Example : some = read(;
+    Instead of : some = read();
+
+Missing ')' after expression
+    This is an error that catches when an expression is called
+    inside parens without a closing paren.
+    Example : some = (expression;
+    Instead of : some = (expression);
+
+Missing ')' after type
+    This is an error that catches when a type is declared
+    inside a new expression without a closing paren
+    Example : name = new simple(;
+    Instead of : name = new simple();
+
+Missing ']' after name
+    This is an error that catches when a name array is called
+    without a closing bracket.
+    Example : identifier[ = 9;
+    Instead of : identifier[] = 9;
